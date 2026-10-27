@@ -7,6 +7,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.amqp.core.TopicExchange;
 
 @Configuration
 public class RabbitConfig{
@@ -67,5 +68,41 @@ public class RabbitConfig{
     public Binding policiaDlqBinding(Queue policiaDlq, DirectExchange policiaDlx){
         return BindingBuilder.bind(policiaDlq).to(policiaDlx).with(RabbitNames.POLICIA_QUEUE);
     }
-    
+
+    //configuraciones para caso TOPIC EXCHANGE
+
+    @Bean
+    public TopicExchange logsTopicExchange(){
+        return new TopicExchange(RabbitNames.LOGS_TOPIC_EXCHANGE,true,false); //TRUE para durabilidad y false para no auto-delete
+    }
+
+    @Bean public Queue logsSeguridadQueue(){
+        return QueueBuilder.durable(RabbitNames.LOGS_SEGURIDAD_QUEUE).build();
+    }
+
+    @Bean public Queue logsSoporteQueue(){
+        return QueueBuilder.durable(RabbitNames.LOGS_SOPORTE_QUEUE).build();
+    }
+
+    @Bean public Queue logsAuditoriaQueue(){
+        return QueueBuilder.durable(RabbitNames.LOGS_AUDITORIA_QUEUE).ttl(10000).build();
+    }
+
+    //Bindings para caso Topic Exchange
+    @Bean
+    public Binding logsSeguridadBinding(Queue logsSeguridadQueue, TopicExchange logsTopicExchange){
+        return BindingBuilder.bind(logsSeguridadQueue).to(logsTopicExchange).with("auth.*");
+    }
+
+    @Bean
+    public Binding logsSoporteBinding(Queue logsSoporteQueue, TopicExchange logsTopicExchange){
+        return BindingBuilder.bind(logsSoporteQueue).to(logsTopicExchange).with("*.error");
+    }
+
+    @Bean
+    public Binding logsAuditoriaBinding(Queue logsAuditoriaQueue, TopicExchange logsTopicExchange){
+        return BindingBuilder.bind(logsAuditoriaQueue).to(logsTopicExchange).with("#");
+    }
+
+
 }

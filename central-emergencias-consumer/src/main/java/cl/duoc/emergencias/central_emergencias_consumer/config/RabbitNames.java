@@ -11,4 +11,11 @@ public final class RabbitNames{
     public static final String BOMBEROS_QUEUE = "emergencias.bomberos";
     public static final String BOMBEROS_DLX = "emergencias.bomberos.dlx";
     public static final String BOMBEROS_DLQ = "emergencias.bomberos.dlq";
+
+    //configuracion para caso Topic Exchange
+    public static final String LOGS_TOPIC_EXCHANGE = "logs.topic";
+    public static final String LOGS_SEGURIDAD_QUEUE = "logs.seguridad";
+    public static final String LOGS_SOPORTE_QUEUE = "logs.soporte";
+    public static final String LOGS_AUDITORIA_QUEUE = "logs.auditoria";
+
 }
