@@ -1,0 +1,43 @@
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Java
+*.class
+*.log
+
+# Maven
+target/
+**/target/
+
+# Gradle
+build/
+.gradle/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Visual Studio Code
+.vscode/
+
+# Archivos temporales
+*.tmp
+*.swp
+*~
+
+# Variables de entorno y secretos
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+
+# Archivos generados
+.DS_Store?
+
